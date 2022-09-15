@@ -16,12 +16,12 @@ public class ReservationController {
     ReservationService reservationService;
 
 
+    /**
+     *
+     *
+     * */
     @GetMapping("/reservation")
     public void reservation(){
-        String month = "202209";
-        String url = "https://booking.ddnayo.com/booking-calendar-api/calendar/accommodation/13676/reservation-calendar?month="+month+"&calendarTypeCode=PRICE_CALENDAR&channelCode=0030";
-        String method = "GET";
-        MultiValueMap<String,String> multiValueMap = new LinkedMultiValueMap<>();
-        reservationService.getReservationList(method,url,multiValueMap);
+        reservationService.getReservationList();
     }
 }
