@@ -50,9 +50,8 @@ public class DateUtil {
 
     public String addMonth(){
         LocalDateTime now = LocalDateTime.now();
-        now.plusMonths(1);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMM");
-        String nowString = now.format(dateTimeFormatter);
+        String nowString = now.plusMonths(1).format(dateTimeFormatter);
         return nowString;
     }
 

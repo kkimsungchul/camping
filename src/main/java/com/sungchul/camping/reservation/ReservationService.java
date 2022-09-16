@@ -1,6 +1,7 @@
 package com.sungchul.camping.reservation;
 
 import com.sungchul.camping.common.DateUtil;
+import com.sungchul.camping.telegram.TelegramService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.json.JsonParser;
@@ -27,35 +28,81 @@ import java.util.Map;
 @Service("reservationService")
 public class ReservationService {
 
+    TelegramService telegramService;
+
+    //dayOfWeek 7 일요일 6
+    //isReservable 예약가능 여부 , true 가능 , false 불가능
+    public ArrayList<HashMap<String,Object>> getReservationTrueList(){
+        ArrayList<HashMap<String,Object>> reservationList= getReservationList();
+        ArrayList<HashMap<String,Object>> resultList = new ArrayList<>();
+        for(int i=0;i<reservationList.size();i++){
+            ArrayList<HashMap<String,Object>> templist1 = (ArrayList<HashMap<String,Object>>)reservationList.get(i).get("columnDtos");
+
+            //detailDtos
+            for(int j=0;j<templist1.size();j++){
+                ArrayList<HashMap<String,Object>> templist2 = (ArrayList<HashMap<String,Object>>)templist1.get(j).get("detailDtos");
+                //reservationList.get(i).get("holidayName");  //공휴일이면 해당 필드가 앖이 있음
+                //reservationList.get(i).get("dayTypeName");  //주중 , 주말 , 공휴일, 공휴일 전날
+                //토요일일 경우
+                if(null!= templist1.get(j).get("dayOfWeek") &&templist1.get(j).get("dayOfWeek").toString().equals("6")){
+                    for(int k=0;k<templist2.size();k++){
+                        if(null!=templist2.get(k).get("isReservable") && (boolean)templist2.get(k).get("isReservable")==true && !templist2.get(k).get("roomName").toString().equalsIgnoreCase("일반오토")){
+                            resultList.add(templist2.get(k));
+
+                            //roomName
+                            //salePrice
+                            telegramService.sendTelegramMessage(templist2.get(k).get("date").toString() + " 일 " + templist2.get(k).get("roomName").toString() + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
+                        }
+                    }
+                }
+            }
+        }
+        return resultList;
+    }
 
 
-    public void getReservationList(){
-        //https://java119.tistory.com/52
-//        DateUtil dateUtil = new DateUtil();
-//        System.out.println(dateUtil.getDayOfWeek("2022-09-01"));
-//        System.out.println(dateUtil.getDayOfWeek("2022-09-02"));
-//        System.out.println(dateUtil.getDayOfWeek("2022-09-03"));
-//        System.out.println("###");
-//        System.out.println(dateUtil.dayEqual("2022-09-03"));
-//        System.out.println(dateUtil.dayEqual("2022-09-20"));
-
+    /**
+     * 오늘 기준으로 해당 캠핑장의 모든 객실 예약상황 데이터를 가져옴
+     * @return ArrayList<HashMap<String,Object>>
+     * */
+    public ArrayList<HashMap<String,Object>> getReservationList(){
         DateUtil dateUtil = new DateUtil();
+        ArrayList<HashMap<String,Object>> reservationList = new ArrayList<>();
+        //이번달
         String month = dateUtil.getMonth();
         String url = "https://booking.ddnayo.com/booking-calendar-api/calendar/accommodation/13676/reservation-calendar?month="+month+"&calendarTypeCode=PRICE_CALENDAR&channelCode=0030";
         String method = "GET";
         MultiValueMap<String,String> multiValueMap = new LinkedMultiValueMap<>();
-        Map<String,Object> map = getReservation(method,url,multiValueMap);
-        parsingReservable(map);
+        Map<String,Object> nextMonthReservationMap = getReservation(method,url,multiValueMap);
+
+        //다음달
+        String month2 = dateUtil.addMonth();
+        String url2 = "https://booking.ddnayo.com/booking-calendar-api/calendar/accommodation/13676/reservation-calendar?month="+month2+"&calendarTypeCode=PRICE_CALENDAR&channelCode=0030";
+        MultiValueMap<String,String> multiValueMap2 = new LinkedMultiValueMap<>();
+        Map<String,Object> thisMonthReservationMap2 = getReservation(method,url2,multiValueMap2);
 
 
+        //이번달 다음달 합쳐서 리스트로 만듬
+        reservationList.addAll(parsingReservableBody(nextMonthReservationMap));
+        reservationList.addAll(parsingReservableBody(thisMonthReservationMap2));
+
+//        for(int i=0;i<reservationList.size();i++){
+//            System.out.println("### reservationList" + reservationList.get(i));
+//        }
+
+        return reservationList;
     }
 
 
 
 
-    //isReservable 예약가능 여부 , true 가능 , false 불가능
 
-    public ArrayList<HashMap<String,Object>> parsingReservable(Map<String,Object> map){
+    /**
+     * 현재 예약 상황 데이터를 getReservation 메소드에서 파싱
+     * @param Map<String,Object> map 메소드 호출방식
+     * @return ArrayList<HashMap<String,Object>>
+     * */
+    public ArrayList<HashMap<String,Object>> parsingReservableBody(Map<String,Object> map){
         ArrayList <HashMap<String,Object>> resultList = new ArrayList<>();
         ArrayList <HashMap<String,Object>> tempList = new ArrayList<>();
         HashMap<String,ArrayList<HashMap<String,Object>>> tempMap = new HashMap<>();
@@ -68,22 +115,18 @@ public class ReservationService {
         //
         for(int i=0;i<rowDtos.size();i++){
             if(dateUtil.dayEqual(rowDtos.get(i).get("startDate").toString())){
-                tempList.add(rowDtos.get(i));
+                resultList.add(rowDtos.get(i));
                 tempMap.put(rowDtos.get(i).get("startDate").toString(),(ArrayList<HashMap<String,Object>>)rowDtos.get(i).get("columnDtos"));
             }
         }
-        System.out.println(tempMap);
 
-        for(int i=0;i<tempList.size();i++){
-            System.out.println("### tempList : " + tempList.get(i));
-        }
         return resultList;
     }
 
 
 
     /**
-     * 현재 예약 상황 목록 데이터 가져오기
+     * 현재 예약 상황 목록 데이터 가져오기 - API호출
      * @param method 메소드 호출방식
      * @param url 호출할 url
      * @param multiValueMap 보낼 데이터
