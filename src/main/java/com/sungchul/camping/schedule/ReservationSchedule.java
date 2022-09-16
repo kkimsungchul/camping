@@ -15,8 +15,8 @@ public class ReservationSchedule {
     ReservationService reservationService;
 
     /**
-     * 주식 파싱 스케줄러
-     * 월-금요일까지 매일 오후 8시에 시작
+     * 캠핑정보 파싱 스케줄러
+     * 매분마다 시작
      * */
     @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul")
     public void parsingSchedule(){
