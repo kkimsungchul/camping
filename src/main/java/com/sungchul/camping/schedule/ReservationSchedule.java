@@ -20,13 +20,13 @@ public class ReservationSchedule {
      * */
     @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul")
     public void parsingSchedule(){
-        log.info("---------------------------------------camping Reservation Schedule Start------------------------------------------------");
+        log.info("---------------camping Reservation Schedule Start---------------");
         if(ReservationScheduleData.flag){
             reservationService.getReservationTrueList();
         }else{
-            log.info("---------------------------------------ReservationScheduleData flag : false, Schedule not working------------------------------------------------");
+            log.info("---------------ReservationScheduleData flag : false, Schedule not working---------------");
         }
-        log.info("---------------------------------------camping Reservation Schedule End------------------------------------------------");
+        log.info("---------------camping Reservation Schedule End---------------");
     }
 
 }

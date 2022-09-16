@@ -21,9 +21,9 @@ public class HealthCheckSchedule {
      * */
     @Scheduled(cron = "0 0 0/6 * * *", zone = "Asia/Seoul")
     public void healthCheckSchedule(){
-        log.info("---------------------------------------Health CheckS Schedule Start------------------------------------------------");
+        log.info("---------------Health CheckS Schedule Start---------------");
         telegramService.sendTelegramMessage("System Health Check - OK");
-        log.info("---------------------------------------Health CheckS Schedule End------------------------------------------------");
+        log.info("---------------Health CheckS Schedule End---------------");
     }
 
 }
