@@ -27,7 +27,6 @@ public class ReservationSchedule {
             log.info("---------------------------------------ReservationScheduleData flag : false, Schedule not working------------------------------------------------");
         }
         log.info("---------------------------------------camping Reservation Schedule End------------------------------------------------");
-
     }
 
 }

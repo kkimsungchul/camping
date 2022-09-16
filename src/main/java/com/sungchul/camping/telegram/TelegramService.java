@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
@@ -28,7 +29,9 @@ public class TelegramService {
 
         for(String chatId : chatIdList){
             try {
-                URL obj = new URL("https://api.telegram.org/bot" + Token + "/sendmessage?chat_id=" + chatId + "&text=" + message); // 호출할 url
+                //URLEncoder.encode 를 추가하지 않으면 서버에서 작동시 해당 데이터는 넘어가지 않음, 꼭 해서 넘기자
+                URL obj = new URL("https://api.telegram.org/bot" + Token + "/sendmessage?chat_id=" + chatId + "&text=" + URLEncoder.encode(message,"UTF-8")); // 호출할 url
+
                 HttpURLConnection con = (HttpURLConnection)obj.openConnection();
                 con.setRequestMethod("GET");
                 in = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));

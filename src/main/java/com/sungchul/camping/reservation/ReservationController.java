@@ -27,22 +27,22 @@ public class ReservationController {
     ReservationService reservationService;
 
 
-    @GetMapping("/reservation")
-    @ApiOperation(
-            httpMethod = "GET",
-            value="예약목록 가져오는지 테스트" ,
-            notes="예약목록 가져오는지 테스트")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "성공", response = Map.class),
-            @ApiResponse(code = 401, message = "권한없음", response = HttpClientErrorException.Forbidden.class),
-            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.Forbidden.class),
-            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class),
-    })
-    public ResponseEntity<ResponseAPI> reservation() throws Exception{
-        ResponseAPI responseAPI  = new ResponseAPI();
-        responseAPI.setData(reservationService.getReservationTrueList());
-        return new ResponseEntity<>(responseAPI,HttpStatus.OK);
-    }
+//    @GetMapping("/reservation")
+//    @ApiOperation(
+//            httpMethod = "GET",
+//            value="예약목록 가져오는지 테스트" ,
+//            notes="예약목록 가져오는지 테스트")
+//    @ApiResponses({
+//            @ApiResponse(code = 200, message = "성공", response = Map.class),
+//            @ApiResponse(code = 401, message = "권한없음", response = HttpClientErrorException.Forbidden.class),
+//            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.Forbidden.class),
+//            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class),
+//    })
+//    public ResponseEntity<ResponseAPI> reservation() throws Exception{
+//        ResponseAPI responseAPI  = new ResponseAPI();
+//        responseAPI.setData(reservationService.getReservationTrueList());
+//        return new ResponseEntity<>(responseAPI,HttpStatus.OK);
+//    }
 
 
 

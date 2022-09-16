@@ -28,10 +28,10 @@ public class TelegramController {
 
     TelegramService telegramService;
 
-    @GetMapping("/telegram/message")
-    public void telegramMessage(){
-        telegramService.sendTelegramMessage("");
-    }
+//    @GetMapping("/telegram/message")
+//    public void telegramMessage(){
+//        telegramService.sendTelegramMessage("");
+//    }
 
     @GetMapping("/telegram/stop")
     @ApiOperation(
@@ -46,6 +46,7 @@ public class TelegramController {
     })
     public void telegramStop(){
         ReservationScheduleData.flag=false;
+        log.info("---------------------------------------Change ReservationScheduleData.flag : false------------------------------------------------");
     }
 
     @GetMapping("/telegram/start")
@@ -61,5 +62,6 @@ public class TelegramController {
     })
     public void telegramStart(){
         ReservationScheduleData.flag=true;
+        log.info("---------------------------------------Change ReservationScheduleData.flag : true------------------------------------------------");
     }
 }

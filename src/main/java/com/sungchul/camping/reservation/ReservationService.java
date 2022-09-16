@@ -41,14 +41,13 @@ public class ReservationService {
             //detailDtos
             for(int j=0;j<templist1.size();j++){
                 ArrayList<HashMap<String,Object>> templist2 = (ArrayList<HashMap<String,Object>>)templist1.get(j).get("detailDtos");
-                //reservationList.get(i).get("holidayName");  //공휴일이면 해당 필드가 앖이 있음
+                //reservationList.get(i).get("holidayName");  //공휴일이면 해당 필드에 값이 있음
                 //reservationList.get(i).get("dayTypeName");  //주중 , 주말 , 공휴일, 공휴일 전날
                 //토요일일 경우
                 if(null!= templist1.get(j).get("dayOfWeek") &&templist1.get(j).get("dayOfWeek").toString().equals("6")){
                     for(int k=0;k<templist2.size();k++){
                         if(null!=templist2.get(k).get("isReservable") && (boolean)templist2.get(k).get("isReservable")==true && !templist2.get(k).get("roomName").toString().equalsIgnoreCase("일반오토")){
                             resultList.add(templist2.get(k));
-
                             //roomName
                             //salePrice
                             telegramService.sendTelegramMessage(templist2.get(k).get("date").toString() + " 일 " + templist2.get(k).get("roomName").toString() + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
