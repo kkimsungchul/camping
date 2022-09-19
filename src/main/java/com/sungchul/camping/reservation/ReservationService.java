@@ -1,6 +1,7 @@
 package com.sungchul.camping.reservation;
 
 import com.sungchul.camping.common.DateUtil;
+import com.sungchul.camping.schedule.ReservationScheduleData;
 import com.sungchul.camping.telegram.TelegramService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +49,14 @@ public class ReservationService {
                     for(int k=0;k<templist2.size();k++){
                         if(null!=templist2.get(k).get("isReservable") && (boolean)templist2.get(k).get("isReservable")==true && !templist2.get(k).get("roomName").toString().equalsIgnoreCase("일반오토")){
                             resultList.add(templist2.get(k));
+                            String message = templist2.get(k).get("date").toString() + " 일 " + templist2.get(k).get("roomName").toString();
+                            //여러번 발송하는것을 막히위해,
+                            if(!ReservationScheduleData.overlapHashSet.contains(message)){
+                                telegramService.sendTelegramMessage(message + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
+                                ReservationScheduleData.overlapHashSet.add(message);
+                            }
                             //roomName
                             //salePrice
-                            telegramService.sendTelegramMessage(templist2.get(k).get("date").toString() + " 일 " + templist2.get(k).get("roomName").toString() + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
                         }
                     }
                 }

@@ -2,6 +2,7 @@ package com.sungchul.camping.reservation;
 
 
 import com.sungchul.camping.common.ResponseAPI;
+import com.sungchul.camping.schedule.ReservationScheduleData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -39,6 +40,7 @@ public class ReservationController {
 //            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class),
 //    })
 //    public ResponseEntity<ResponseAPI> reservation() throws Exception{
+//        ReservationScheduleData.overlapHashSet.clear();
 //        ResponseAPI responseAPI  = new ResponseAPI();
 //        responseAPI.setData(reservationService.getReservationTrueList());
 //        return new ResponseEntity<>(responseAPI,HttpStatus.OK);

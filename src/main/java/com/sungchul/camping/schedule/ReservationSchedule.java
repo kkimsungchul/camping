@@ -29,4 +29,15 @@ public class ReservationSchedule {
         log.info("---------------camping Reservation Schedule End---------------");
     }
 
+    /**
+     * 캠핑정보 파싱 스케줄러
+     * 매분마다 시작
+     * */
+    @Scheduled(cron = "30 0/5 * * * *", zone = "Asia/Seoul")
+    public void parsingDataCleaer(){
+        log.info("---------------camping Parsing Data clear Start---------------");
+        ReservationScheduleData.overlapHashSet.clear();
+        log.info("---------------camping Parsing Data clear End---------------");
+    }
+
 }
