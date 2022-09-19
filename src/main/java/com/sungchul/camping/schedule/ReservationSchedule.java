@@ -30,11 +30,11 @@ public class ReservationSchedule {
     }
 
     /**
-     * 캠핑정보 파싱 스케줄러
-     * 매분마다 시작
+     * 파싱한 데이터를 삭제하는 컨트롤러
+     * 매5분마다 시작
      * */
     @Scheduled(cron = "30 0/5 * * * *", zone = "Asia/Seoul")
-    public void parsingDataCleaer(){
+    public void parsingDatClear(){
         log.info("---------------camping Parsing Data clear Start---------------");
         ReservationScheduleData.overlapHashSet.clear();
         log.info("---------------camping Parsing Data clear End---------------");
