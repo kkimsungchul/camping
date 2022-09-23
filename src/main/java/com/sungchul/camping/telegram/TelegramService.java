@@ -1,5 +1,6 @@
 package com.sungchul.camping.telegram;
 
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -8,7 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-
 
 @Service("telegramService")
 public class TelegramService {
