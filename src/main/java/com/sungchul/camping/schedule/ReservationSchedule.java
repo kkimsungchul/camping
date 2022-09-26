@@ -22,7 +22,7 @@ public class ReservationSchedule {
     public void parsingSchedule(){
         log.info("---------------camping Reservation Schedule Start---------------");
         if(ReservationScheduleData.flag){
-            reservationService.getReservationTrueList();
+            reservationService.getReservationTrueList("6");
         }else{
             log.info("---------------ReservationScheduleData flag : false, Schedule not working---------------");
         }

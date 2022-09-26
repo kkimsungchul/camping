@@ -31,9 +31,15 @@ public class ReservationService {
 
     TelegramService telegramService;
 
+
+    /**
+     * 예약가능 여부 조회
+     * @param week 1 월요일 2화요일 3 수요일 4 목요일 5 금요일 6 토요일 7 일요일
+     * @return ArrayList<HashMap<String,Object>>
+     * */
     //dayOfWeek 7 일요일 6
     //isReservable 예약가능 여부 , true 가능 , false 불가능
-    public ArrayList<HashMap<String,Object>> getReservationTrueList(){
+    public ArrayList<HashMap<String,Object>> getReservationTrueList(String week){
         ArrayList<HashMap<String,Object>> reservationList= getReservationList();
         ArrayList<HashMap<String,Object>> resultList = new ArrayList<>();
         for(int i=0;i<reservationList.size();i++){
@@ -45,7 +51,7 @@ public class ReservationService {
                 //reservationList.get(i).get("holidayName");  //공휴일이면 해당 필드에 값이 있음
                 //reservationList.get(i).get("dayTypeName");  //주중 , 주말 , 공휴일, 공휴일 전날
                 //토요일일 경우
-                if(null!= templist1.get(j).get("dayOfWeek") &&templist1.get(j).get("dayOfWeek").toString().equals("6")){
+                if(null!= templist1.get(j).get("dayOfWeek") &&templist1.get(j).get("dayOfWeek").toString().equals(week)){
                     for(int k=0;k<templist2.size();k++){
                         if(null!=templist2.get(k).get("isReservable") && (boolean)templist2.get(k).get("isReservable")==true && !templist2.get(k).get("roomName").toString().equalsIgnoreCase("일반오토")){
                             resultList.add(templist2.get(k));
