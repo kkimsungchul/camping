@@ -40,6 +40,7 @@ public class ReservationService {
     //dayOfWeek 7 일요일 6
     //isReservable 예약가능 여부 , true 가능 , false 불가능
     public ArrayList<HashMap<String,Object>> getReservationTrueList(String week){
+        String url = "https://booking.ddnayo.com/booking-calendar-status?accommodationId=13676";
         ArrayList<HashMap<String,Object>> reservationList= getReservationList();
         ArrayList<HashMap<String,Object>> resultList = new ArrayList<>();
         for(int i=0;i<reservationList.size();i++){
@@ -59,6 +60,10 @@ public class ReservationService {
                             //여러번 발송하는것을 막히위해,
                             if(!ReservationScheduleData.overlapHashSet.contains(message)){
                                 telegramService.sendTelegramMessage(message + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
+                                telegramService.sendTelegramMessage(url);
+
+
+
                                 ReservationScheduleData.overlapHashSet.add(message);
                             }
                             //roomName
