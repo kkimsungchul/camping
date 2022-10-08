@@ -20,13 +20,13 @@ public class ReservationSchedule {
      * */
     @Scheduled(cron = "0 * * * * *", zone = "Asia/Seoul")
     public void parsingSchedule(){
-        log.info("---------------camping Reservation Schedule Start---------------");
+        //log.info("---------------camping Reservation Schedule Start---------------");
         if(ReservationScheduleData.flag){
             reservationService.getReservationTrueList("6");
         }else{
             log.info("---------------ReservationScheduleData flag : false, Schedule not working---------------");
         }
-        log.info("---------------camping Reservation Schedule End---------------");
+        //log.info("---------------camping Reservation Schedule End---------------");
     }
 
     /**
@@ -35,9 +35,9 @@ public class ReservationSchedule {
      * */
     @Scheduled(cron = "30 0/5 * * * *", zone = "Asia/Seoul")
     public void parsingDatClear(){
-        log.info("---------------camping Parsing Data clear Start---------------");
+        //log.info("---------------camping Parsing Data clear Start---------------");
         ReservationScheduleData.overlapHashSet.clear();
-        log.info("---------------camping Parsing Data clear End---------------");
+        //log.info("---------------camping Parsing Data clear End---------------");
     }
 
 }
