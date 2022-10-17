@@ -1,7 +1,7 @@
 package com.sungchul.camping.schedule;
 
 
-import com.sungchul.camping.reservation.ReservationService;
+import com.sungchul.camping.reservation.CampingWorldReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class ReservationSchedule {
 
     @Autowired
-    ReservationService reservationService;
+    CampingWorldReservationService campingWorldReservationService;
 
     /**
      * 캠핑정보 파싱 스케줄러
@@ -22,7 +22,7 @@ public class ReservationSchedule {
     public void parsingSchedule(){
         //log.info("---------------camping Reservation Schedule Start---------------");
         if(ReservationScheduleData.flag){
-            reservationService.getReservationTrueList("6");
+            campingWorldReservationService.getReservationTrueList("6");
         }else{
             log.info("---------------ReservationScheduleData flag : false, Schedule not working---------------");
         }

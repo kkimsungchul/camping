@@ -24,10 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 
+/*충주호 캠핑월드 파싱 서비스*/
+
 @Slf4j
 @AllArgsConstructor
-@Service("reservationService")
-public class ReservationService {
+@Service("campingWorldReservationService")
+public class CampingWorldReservationService {
 
     TelegramService telegramService;
 

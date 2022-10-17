@@ -1,13 +1,14 @@
 package com.sungchul.camping.common;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class DateUtil {
     /*yyyymmdd 로 현재 날짜 리턴*/
@@ -54,6 +55,12 @@ public class DateUtil {
         String nowString = now.plusMonths(1).format(dateTimeFormatter);
         return nowString;
     }
+    public String addWeek(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMM");
+        String nowString = now.plusWeeks(1).format(dateTimeFormatter);
+        return nowString;
+    }
 
 
     /**
@@ -85,6 +92,34 @@ public class DateUtil {
         LocalDate now = LocalDate.now();
         return now.isBefore(getDate);
 
+    }
+
+    /**
+     * 이번달과 다음달의 매주 토요일,일요일 날짜를 리턴
+     * @return ArrayList<HashMap<String,String>>  ,
+     * */
+    public ArrayList<HashMap<String,String>> getSaturdays(){
+        ArrayList<HashMap<String,String>> saturdays = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        //다음달 마지막날
+        String nextMonthLastDay = now.with(TemporalAdjusters.lastDayOfMonth()).plusMonths(1).format(dateTimeFormatter);
+        for(int i=0;;i++){
+
+            if(Integer.parseInt(nextMonthLastDay) < Integer.parseInt(now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).format(dateTimeFormatter))){
+                break;
+            }else{
+                HashMap<String,String> map = new HashMap<>();
+//                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).format(dateTimeFormatter));
+//                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
+                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).plusWeeks(i).format(dateTimeFormatter));
+                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.MONDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
+                map.put("today",now.format(dateTimeFormatter));
+                saturdays.add(map);
+            }
+
+        }
+        return saturdays;
     }
 
 

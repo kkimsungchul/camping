@@ -1,7 +1,6 @@
 package com.sungchul.camping.schedule;
 
 
-import com.sungchul.camping.reservation.ReservationService;
 import com.sungchul.camping.telegram.TelegramService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

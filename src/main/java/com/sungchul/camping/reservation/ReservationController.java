@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -21,28 +22,48 @@ import java.util.Map;
 @Slf4j
 @AllArgsConstructor
 @RestController
+@RequestMapping("/reservation")
 @Api(tags = {"캠핑장 예약 확인 컨트롤러"})
 public class ReservationController {
 
 
-    ReservationService reservationService;
+    CampingWorldReservationService campingWorldReservationService;
 
+    Camping808ReservationService camping808ReservationService;
 
-    @GetMapping("/reservation")
+    @GetMapping("/campingWorld")
     @ApiOperation(
             httpMethod = "GET",
-            value="예약목록 가져오는지 테스트" ,
-            notes="예약목록 가져오는지 테스트")
+            value="충주 캠핑월드 예약목록 가져오는지 테스트" ,
+            notes="충주 캠핑월드 예약목록 가져오는지 테스트")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
             @ApiResponse(code = 401, message = "권한없음", response = HttpClientErrorException.Forbidden.class),
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.Forbidden.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class),
     })
-    public ResponseEntity<ResponseAPI> reservation(String week) throws Exception{
+    public ResponseEntity<ResponseAPI> campingWorldReservation(String week) throws Exception{
         ReservationScheduleData.overlapHashSet.clear();
         ResponseAPI responseAPI  = new ResponseAPI();
-        responseAPI.setData(reservationService.getReservationTrueList(week));
+        responseAPI.setData(campingWorldReservationService.getReservationTrueList(week));
+        return new ResponseEntity<>(responseAPI,HttpStatus.OK);
+    }
+
+    @GetMapping("/camping808")
+    @ApiOperation(
+            httpMethod = "GET",
+            value="캠핑808 예약목록 가져오는지 테스트" ,
+            notes="캠핑808 예약목록 가져오는지 테스트")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = Map.class),
+            @ApiResponse(code = 401, message = "권한없음", response = HttpClientErrorException.Forbidden.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.Forbidden.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class),
+    })
+    public ResponseEntity<ResponseAPI> camping808Reservation(String week) throws Exception{
+
+        camping808ReservationService.aa();
+        ResponseAPI responseAPI  = new ResponseAPI();
         return new ResponseEntity<>(responseAPI,HttpStatus.OK);
     }
 
