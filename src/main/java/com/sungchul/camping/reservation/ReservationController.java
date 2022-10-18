@@ -29,7 +29,7 @@ public class ReservationController {
 
     CampingWorldReservationService campingWorldReservationService;
 
-    Camping808ReservationService camping808ReservationService;
+    ThankYouCampingReservationService thankYouCampingReservationService;
 
     @GetMapping("/campingWorld")
     @ApiOperation(
@@ -62,7 +62,25 @@ public class ReservationController {
     })
     public ResponseEntity<ResponseAPI> camping808Reservation() throws Exception{
         ResponseAPI responseAPI  = new ResponseAPI();
-        responseAPI.setData(camping808ReservationService.getReservationTrueList());
+        responseAPI.setData(thankYouCampingReservationService.getCamping808ReservationTrueList());
+        return new ResponseEntity<>(responseAPI,HttpStatus.OK);
+    }
+
+
+    @GetMapping("/test")
+    @ApiOperation(
+            httpMethod = "GET",
+            value="땡큐캠핑 예약목록 템플릿" ,
+            notes="땡큐캠핑 예약목록 템플릿")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = Map.class),
+            @ApiResponse(code = 401, message = "권한없음", response = HttpClientErrorException.Forbidden.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.Forbidden.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class),
+    })
+    public ResponseEntity<ResponseAPI> test() throws Exception{
+        ResponseAPI responseAPI  = new ResponseAPI();
+        responseAPI.setData(thankYouCampingReservationService.test());
         return new ResponseEntity<>(responseAPI,HttpStatus.OK);
     }
 
