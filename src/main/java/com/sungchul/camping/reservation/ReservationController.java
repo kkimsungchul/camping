@@ -60,10 +60,9 @@ public class ReservationController {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.Forbidden.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class),
     })
-    public ResponseEntity<ResponseAPI> camping808Reservation(String week) throws Exception{
-
-        camping808ReservationService.aa();
+    public ResponseEntity<ResponseAPI> camping808Reservation() throws Exception{
         ResponseAPI responseAPI  = new ResponseAPI();
+        responseAPI.setData(camping808ReservationService.getReservationTrueList());
         return new ResponseEntity<>(responseAPI,HttpStatus.OK);
     }
 

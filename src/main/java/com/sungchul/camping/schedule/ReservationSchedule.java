@@ -1,6 +1,7 @@
 package com.sungchul.camping.schedule;
 
 
+import com.sungchul.camping.reservation.Camping808ReservationService;
 import com.sungchul.camping.reservation.CampingWorldReservationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ public class ReservationSchedule {
     @Autowired
     CampingWorldReservationService campingWorldReservationService;
 
+    @Autowired
+    Camping808ReservationService camping808ReservationService;
     /**
      * 캠핑정보 파싱 스케줄러
      * 매분마다 시작
@@ -22,7 +25,8 @@ public class ReservationSchedule {
     public void parsingSchedule(){
         //log.info("---------------camping Reservation Schedule Start---------------");
         if(ReservationScheduleData.flag){
-            campingWorldReservationService.getReservationTrueList("6");
+            campingWorldReservationService.getReservationTrueList("6");         //충주호 캠핑월드
+            camping808ReservationService.getReservationTrueList();                      //충주호 캠핑808
         }else{
             log.info("---------------ReservationScheduleData flag : false, Schedule not working---------------");
         }

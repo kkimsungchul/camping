@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -41,6 +42,7 @@ public class CampingWorldReservationService {
      * */
     //dayOfWeek 7 일요일 6
     //isReservable 예약가능 여부 , true 가능 , false 불가능
+    @Async
     public ArrayList<HashMap<String,Object>> getReservationTrueList(String week){
         String url = "https://booking.ddnayo.com/booking-calendar-status?accommodationId=13676";
         ArrayList<HashMap<String,Object>> reservationList= getReservationList();
@@ -61,7 +63,7 @@ public class CampingWorldReservationService {
                             String message = templist2.get(k).get("date").toString() + " 일 " + templist2.get(k).get("roomName").toString();
                             //여러번 발송하는것을 막히위해,
                             if(!ReservationScheduleData.overlapHashSet.contains(message)){
-                                telegramService.sendTelegramMessage(message + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
+                                telegramService.sendTelegramMessage("충주호 캠핑월드 : "+message + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
                                 telegramService.sendTelegramMessage(url);
 
 
