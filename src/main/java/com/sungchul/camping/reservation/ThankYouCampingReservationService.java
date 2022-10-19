@@ -90,7 +90,7 @@ public class ThankYouCampingReservationService {
             for(int i=0;i<parsingList.size();i++){
                 String day = parsingList.get(i).get("day").substring(0,4) + "-" + parsingList.get(i).get("day").substring(4,6) + "-" + parsingList.get(i).get("day").substring(6) + " 일 ";
                 System.out.println(day + " : " + parsingList.get(i).get("site"));
-                //telegramService.sendTelegramMessage("캠핑808 : "+ day +parsingList.get(i).get("site"));
+                //telegramService.sendTelegramMessage("테스트 : "+ day +parsingList.get(i).get("site"));
                 //telegramService.sendTelegramMessage(reservationUrl);
             }
         }
