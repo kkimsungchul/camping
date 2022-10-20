@@ -34,7 +34,7 @@ public class ThankYouCampingReservationService {
         ArrayList<HashMap<String,String>> parsingList = new ArrayList<>();
         DateUtil dateUtil = new DateUtil();
         //오늘, 토요일,일요일을 가져옴
-        ArrayList<HashMap<String,String>> saturdays =  dateUtil.getSaturdays();
+        ArrayList<HashMap<String,String>> saturdays =  dateUtil.getSaturdays(2);
         //예약페이지 URL
         String reservationUrl = "http://r.camperstory.com/resMain.hbb?reserve_path=RP&campseq=3866";
         String parsingUrl = "http://r.camperstory.com/resStep.hbb";
@@ -47,6 +47,7 @@ public class ThankYouCampingReservationService {
                 map.put("campsiteseq",largeSiteArr[i]);//캠핑장 사이트 고유 번호
                 parsingList.addAll(camping808ParsingData(map,parsingUrl));
             }
+
         }
 
         if(parsingList.size()>0){
@@ -63,7 +64,7 @@ public class ThankYouCampingReservationService {
 
     /**
      * 예약 가능 여부 조회
-     * 테스트로 작성해노았으며, campseq , sampsiteseq ,
+     * 테스트로 작성해노았으며, campseq , sampsiteseq 만 수정하면됨, 또한 호출하는 parsingDataTest 메소드에서 파싱할 데이터들의 기준을 정하면됨
      * @return parsingList , 예약 가능한 날짜 목록
      * */
     @Async
@@ -71,11 +72,11 @@ public class ThankYouCampingReservationService {
         ArrayList<HashMap<String,String>> parsingList = new ArrayList<>();
         DateUtil dateUtil = new DateUtil();
         //오늘, 토요일,일요일을 가져옴
-        ArrayList<HashMap<String,String>> saturdays =  dateUtil.getSaturdays();
+        ArrayList<HashMap<String,String>> saturdays =  dateUtil.getSaturdays(2);
         //예약페이지 URL
         String reservationUrl = "http://r.camperstory.com/resMain.hbb?reserve_path=RP&campseq=3443";
         String parsingUrl = "http://r.camperstory.com/resStep.hbb";
-        String [] largeSiteArr = {"16115","12769"};
+        String [] largeSiteArr = {"16115","12769"}; //캠핑장 사이트 고유 번호
 
         for(int i=0;i<largeSiteArr.length;i++){
             for(int j=0;j<saturdays.size();j++){

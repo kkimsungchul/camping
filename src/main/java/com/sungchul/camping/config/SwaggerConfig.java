@@ -22,7 +22,8 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
+                //.paths(PathSelectors.any())           //테스트할때는 해당 내용으로
+                .paths(PathSelectors.regex("/(telegram).*"))    //운영 배포시에 해당내용으로
                 .build();
     }
 

@@ -98,12 +98,12 @@ public class DateUtil {
      * 이번달과 다음달의 매주 토요일,일요일 날짜를 리턴
      * @return ArrayList<HashMap<String,String>>  ,
      * */
-    public ArrayList<HashMap<String,String>> getSaturdays(){
+    public ArrayList<HashMap<String,String>> getSaturdays(int addMonths){
         ArrayList<HashMap<String,String>> saturdays = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         //다음달 마지막날
-        String nextMonthLastDay = now.with(TemporalAdjusters.lastDayOfMonth()).plusMonths(1).format(dateTimeFormatter);
+        String nextMonthLastDay = now.with(TemporalAdjusters.lastDayOfMonth()).plusMonths(addMonths).format(dateTimeFormatter);
         for(int i=0;;i++){
 
             if(Integer.parseInt(nextMonthLastDay) < Integer.parseInt(now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).format(dateTimeFormatter))){
@@ -112,8 +112,8 @@ public class DateUtil {
                 HashMap<String,String> map = new HashMap<>();
 //                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).format(dateTimeFormatter));
 //                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
-                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).format(dateTimeFormatter));
-                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
+                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).plusWeeks(i).format(dateTimeFormatter));
+                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
                 map.put("today",now.format(dateTimeFormatter));
                 saturdays.add(map);
             }
