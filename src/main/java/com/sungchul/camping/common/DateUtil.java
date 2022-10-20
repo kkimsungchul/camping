@@ -112,8 +112,8 @@ public class DateUtil {
                 HashMap<String,String> map = new HashMap<>();
 //                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).format(dateTimeFormatter));
 //                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
-                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).plusWeeks(i).format(dateTimeFormatter));
-                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.SUNDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
+                map.put("saturday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).format(dateTimeFormatter));
+                map.put("sunday",now.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)).plusWeeks(i).plusDays(1).format(dateTimeFormatter));
                 map.put("today",now.format(dateTimeFormatter));
                 saturdays.add(map);
             }
