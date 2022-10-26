@@ -65,9 +65,6 @@ public class CampingWorldReservationService {
                             if(!ReservationScheduleData.overlapHashSet.contains(message)){
                                 telegramService.sendTelegramMessage("충주호 캠핑월드 : "+message + " 예약 가능 " + templist2.get(k).get("salePrice").toString()+"원");
                                 telegramService.sendTelegramMessage(url);
-
-
-
                                 ReservationScheduleData.overlapHashSet.add(message);
                             }
                             //roomName

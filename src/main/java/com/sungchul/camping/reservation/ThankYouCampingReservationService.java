@@ -2,6 +2,7 @@ package com.sungchul.camping.reservation;
 
 
 import com.sungchul.camping.common.DateUtil;
+import com.sungchul.camping.schedule.ReservationScheduleData;
 import com.sungchul.camping.telegram.TelegramService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,8 +54,15 @@ public class ThankYouCampingReservationService {
         if(parsingList.size()>0){
             for(int i=0;i<parsingList.size();i++){
                 String day = parsingList.get(i).get("day").substring(0,4) + "-" + parsingList.get(i).get("day").substring(4,6) + "-" + parsingList.get(i).get("day").substring(6) + " 일 ";
-                telegramService.sendTelegramMessage("캠핑808 : "+ day +parsingList.get(i).get("site"));
-                telegramService.sendTelegramMessage(reservationUrl);
+
+                //여러번 발송하는것을 막히위해,
+                String message = "캠핑808 : "+ day +parsingList.get(i).get("site");
+                if(!ReservationScheduleData.overlapHashSet.contains(message)){
+                    telegramService.sendTelegramMessage(message);
+                    telegramService.sendTelegramMessage(reservationUrl);
+                    ReservationScheduleData.overlapHashSet.add(message);
+                }
+
             }
         }
         return parsingList;
@@ -174,10 +182,10 @@ public class ThankYouCampingReservationService {
         //System.out.println(elements.text());
         String []splitString = parsingData.split("\\)");
         for(int i=0;i<splitString.length;i++){
-                HashMap<String,String> resultMap = new HashMap<>();
-                resultMap.put("site",splitString[i].replaceAll("\\(",""));
-                resultMap.put("day",map.get("res_dt"));
-                resultList.add(resultMap);
+            HashMap<String,String> resultMap = new HashMap<>();
+            resultMap.put("site",splitString[i].replaceAll("\\(",""));
+            resultMap.put("day",map.get("res_dt"));
+            resultList.add(resultMap);
         }
         return resultList;
     }
