@@ -16,50 +16,43 @@ public class DateUtil {
 
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String nowString = now.format(dateTimeFormatter);
-        return nowString;
+        return now.format(dateTimeFormatter);
     }
 
     /*yyyy 로 현재 연도 리턴*/
     public String getYear() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy");
-        String nowString = now.format(dateTimeFormatter);
-        return nowString;
+        return now.format(dateTimeFormatter);
     }
     /*HHmmss 로 현재 시간 리턴*/
     public String getTime() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HHmmss");
-        String nowString = now.format(dateTimeFormatter);
-        return nowString;
+        return now.format(dateTimeFormatter);
     }
     /*지정한 형식으로 출력*/
     public String getTime(String strformat){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(strformat);
-        String nowString = now.format(dateTimeFormatter);
-        return nowString;
+        return now.format(dateTimeFormatter);
     }
 
     public String getMonth(){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMM");
-        String nowString = now.format(dateTimeFormatter);
-        return nowString;
+        return now.format(dateTimeFormatter);
     }
 
     public String addMonth(){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMM");
-        String nowString = now.plusMonths(1).format(dateTimeFormatter);
-        return nowString;
+        return now.format(dateTimeFormatter);
     }
     public String addWeek(){
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMM");
-        String nowString = now.plusWeeks(1).format(dateTimeFormatter);
-        return nowString;
+        return now.format(dateTimeFormatter);
     }
 
 
@@ -69,7 +62,7 @@ public class DateUtil {
      * @return result , 1부터 시작하며 1은 월요일 7은 일요일
      * */
     public int  getDayOfWeek(String day){
-        String splitString[] = day.split("-");
+        String[] splitString = day.split("-");
         LocalDate now = LocalDate.of(
                 Integer.parseInt(splitString[0])
                 ,Integer.parseInt(splitString[1])
@@ -84,7 +77,7 @@ public class DateUtil {
      * @return Boolean , true 이전임 , false 지났음
      * */
     public boolean dayEqual(String day){
-        String splitString[] = day.split("-");
+        String[] splitString = day.split("-");
         LocalDate getDate = LocalDate.of(
                 Integer.parseInt(splitString[0])
                 ,Integer.parseInt(splitString[1])
