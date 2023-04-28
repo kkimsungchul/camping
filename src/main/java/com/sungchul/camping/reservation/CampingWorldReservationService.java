@@ -93,11 +93,10 @@ public class CampingWorldReservationService {
         Map<String,Object> nextMonthReservationMap = getReservation(method,url,multiValueMap);
 
         //다음달
-        String month2 = dateUtil.addMonth();
+        String month2 = dateUtil.plusMonths(1);
         String url2 = "https://booking.ddnayo.com/booking-calendar-api/calendar/accommodation/13676/reservation-calendar?month="+month2+"&calendarTypeCode=PRICE_CALENDAR&channelCode=0030";
         MultiValueMap<String,String> multiValueMap2 = new LinkedMultiValueMap<>();
         Map<String,Object> thisMonthReservationMap2 = getReservation(method,url2,multiValueMap2);
-
 
         //이번달 다음달 합쳐서 리스트로 만듬
         reservationList.addAll(parsingReservableBody(nextMonthReservationMap));
@@ -131,7 +130,7 @@ public class CampingWorldReservationService {
 
         //
         for(int i=0;i<rowDtos.size();i++){
-            if(dateUtil.dayEqual(rowDtos.get(i).get("startDate").toString())){
+            if(dateUtil.isDayBeforeNow(rowDtos.get(i).get("startDate").toString())){
                 resultList.add(rowDtos.get(i));
                 tempMap.put(rowDtos.get(i).get("startDate").toString(),(ArrayList<HashMap<String,Object>>)rowDtos.get(i).get("columnDtos"));
             }
@@ -155,30 +154,52 @@ public class CampingWorldReservationService {
     }
 
 
+//    /**
+//     * API 호출
+//     * @param method 메소드 호출방식
+//     * @param url 호출할 url
+//     * @param multiValueMap 보낼 데이터
+//     * @return ResponseEntity<String>
+//     * */
+//    public ResponseEntity<String> callApi(String method , String url , MultiValueMap<String,String> multiValueMap ){
+//        HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(multiValueMap);
+//        ResponseEntity<String> responseEntity;
+//        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+//        factory.setConnectTimeout(5000); //타임아웃 설정 5초
+//        factory.setReadTimeout(5000);//타임아웃 설정 5초
+//        RestTemplate restTemplate = new RestTemplate(factory);
+//        HttpHeaders header = new HttpHeaders();
+//
+//        if(method.equalsIgnoreCase("GET")){
+//            return responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity,String.class);
+//        }else if(method.equalsIgnoreCase("POST")){
+//            return responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity,String.class);
+//        }else{
+//            return null;
+//        }
+//    }
+
     /**
      * API 호출
      * @param method 메소드 호출방식
      * @param url 호출할 url
      * @param multiValueMap 보낼 데이터
      * @return ResponseEntity<String>
-     * */
-    public ResponseEntity<String> callApi(String method , String url , MultiValueMap<String,String> multiValueMap ){
-        HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(multiValueMap);
-        ResponseEntity<String> responseEntity;
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-        factory.setConnectTimeout(5000); //타임아웃 설정 5초
-        factory.setReadTimeout(5000);//타임아웃 설정 5초
-        RestTemplate restTemplate = new RestTemplate(factory);
-        HttpHeaders header = new HttpHeaders();
+     */
+    public ResponseEntity<String> callApi(String method, String url, MultiValueMap<String, String> multiValueMap) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(multiValueMap, headers);
 
-        if(method.equalsIgnoreCase("GET")){
-            return responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity,String.class);
-        }else if(method.equalsIgnoreCase("POST")){
-            return responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity,String.class);
-        }else{
+        if (method.equalsIgnoreCase("GET")) {
+            return restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+        } else if (method.equalsIgnoreCase("POST")) {
+            return restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+        } else {
             return null;
         }
     }
+
 
     /**
      * JSON 을 Map 으로 변환
