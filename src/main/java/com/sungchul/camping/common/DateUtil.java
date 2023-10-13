@@ -171,4 +171,19 @@ public class DateUtil {
         }
         return saturdays;
     }
+
+    /**
+     * 입력받은 날짜와 포맷을, 원하는 포맷으로 변경
+     * @param date 입력받은 날짜
+     * @param nowFormat 입력받은 날짜의 데이터 포맷
+     * @param changeFormat 변경할 데이터 포맷
+     * @return String 변경된 데이터 포맷으로 리턴
+     * */
+    public static String changeDateFormat(String date, String nowFormat, String changeFormat) {
+        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern(nowFormat);
+        LocalDateTime dateTime = LocalDateTime.parse(date, dtFormatter);
+
+        DateTimeFormatter newDtFormatter = DateTimeFormatter.ofPattern(changeFormat);
+        return dateTime.format(newDtFormatter);
+    }
 }
